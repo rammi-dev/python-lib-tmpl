@@ -38,17 +38,23 @@ pipeline {
 
         stage('Build') {
             when {
-                branch 'main'
+                anyOf {
+                    branch 'main'
+                    tag 'dlh-dag-utils-v*'
+                }
             }
             steps {
                 // Build individual packages
+                // When built from a tag, hatch-vcs produces a clean version (e.g., 0.1.0)
+                // When built from main (no tag), it produces a dev version (e.g., 0.1.1.dev0+g...)
                 sh 'uv build --package dlh-dag-utils'
             }
         }
 
         stage('Publish') {
             when {
-                branch 'main'
+                // Enforce tag-only releases
+                tag 'dlh-dag-utils-v*'
             }
             steps {
                 // Publish built packages
