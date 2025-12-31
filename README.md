@@ -44,6 +44,38 @@ git tag dlh-dag-utils-v0.1.0
     tox -e type
     ```
 
+## DAG Development Workflow
+
+If you are developing DAGs in a separate repository and need to use the latest changes from `dlh-dag-utils` without publishing a new version, you can install this package in **editable mode**.
+
+### Method 1: Using `uv` Configuration (Recommended)
+
+In your DAG repository's `pyproject.toml`, add a dependency on `dlh-dag-utils` and configure a local source:
+
+```toml
+[project]
+dependencies = [
+    "dlh-dag-utils",
+]
+
+[tool.uv.sources]
+dlh-dag-utils = { path = "/path/to/dlh-workspace/packages/dlh-dag-utils", editable = true }
+```
+
+When you run `uv sync` in your DAG repository, it will link to your local checkout of `dlh-dag-utils`. Any changes you make in `dlh-workspace` will be immediately available in your DAG environment.
+
+### Method 2: Manual Editable Install
+
+You can also manually install the package in editable mode into your virtual environment:
+
+```bash
+# Activate your DAG repo's virtual environment
+source .venv/bin/activate
+
+# Install dlh-dag-utils in editable mode
+uv pip install -e /path/to/dlh-workspace/packages/dlh-dag-utils
+```
+
 ## Publishing to Nexus/PyPI
 
 To publish these packages to a Nexus repository or PyPI, you can use `uv publish`.
