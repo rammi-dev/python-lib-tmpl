@@ -1,0 +1,30 @@
+[project]
+name = "dlh-workspace"
+version = "0.1.0"
+description = "Data Lakehouse Automation Workspace"
+requires-python = ">=3.11"
+dependencies = [
+    "dlh-dag-utils",
+    "pytest",
+    "ruff",
+    "mypy"
+]
+
+[tool.uv.workspace]
+members = ["packages/dlh-dag-utils"]
+
+[tool.uv.sources]
+dlh-dag-utils = { workspace = true }
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = []
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
